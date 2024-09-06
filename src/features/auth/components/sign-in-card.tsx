@@ -22,9 +22,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [pending, setPending] = useState(false);
 
     const handleSignInProvider = (value: "github" | "google") => {
-        signIn(value)
+        setPending(true)
+        signIn(value).finally(() => setPending(false))
     }
 
     return (
@@ -40,7 +42,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             <CardContent className="space-y-5 px-0 pb-0">
                 <form className="space-y-2.5">
                     <Input
-                        disabled={false}
+                        disabled={pending}
                         value={email}
                         onChange={(e) => { setEmail(e.target.value) }}
                         placeholder="Email"
@@ -48,24 +50,24 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         required
                     />
                     <Input
-                        disabled={false}
+                        disabled={pending}
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
                         placeholder="Password"
                         type="password"
                         required
                     />
-                    <Button type="submit" className="w-full" size="lg" disabled={false}>
+                    <Button type="submit" className="w-full" size="lg" disabled={pending}>
                         Continue
                     </Button>
                 </form>
                 <Separator />
                 <div className="flex flex-col gap-y-2.5">
-                    <Button disabled={false} onClick={() => { }} variant="outline" size="lg" className="relative">
+                    <Button disabled={pending} onClick={() => handleSignInProvider("google")} variant="outline" size="lg" className="relative">
                         <FcGoogle className="size-5 absolute top-2.7 left-2.5" />
                         Continue with Google
                     </Button>
-                    <Button disabled={false} onClick={() => handleSignInProvider("github")} variant="outline" size="lg" className="relative">
+                    <Button disabled={pending} onClick={() => handleSignInProvider("github")} variant="outline" size="lg" className="relative">
                         <FaGithub className="size-5 absolute top-2.7 left-2.5" />
                         Continue with Github
                     </Button>
