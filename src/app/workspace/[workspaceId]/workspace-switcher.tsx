@@ -11,7 +11,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
@@ -28,6 +27,10 @@ export const WorkspaceSwitcher = () => {
     const filteredWorkspaces = workspaces?.filter(
         (workspace) => workspace?._id !== workspaceId
     )
+
+    if(workspacesLoading){
+        return <Loader className="size-5 animate-spin shrink-0" />
+    }
 
     return (
         <DropdownMenu>
