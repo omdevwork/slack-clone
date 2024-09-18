@@ -5,7 +5,7 @@ import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
 type RequestType = {
-    name: string
+    id: Id<"workspaces">;
 };
 type ResponseType = Id<"workspaces"> | null;
 
@@ -16,8 +16,8 @@ type Options = {
     throwError?: boolean;
 }
 
-export const useCreateWorkSpace = () => {
-    const muation = useMutation(api.workspaces.create);
+export const useRemoveWorkSpace = () => {
+    const muation = useMutation(api.workspaces.remove);
 
     const [data, setData] = useState<ResponseType>(null);
     const [error, setError] = useState<Error | null>(null);
