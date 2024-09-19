@@ -13,7 +13,7 @@ import { useCreateWorkSpace } from "../api/use-create-workspace";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const CreateWorkspaceModal = () => {
+export const CreateWorkspaceModal = () => {
 
     const router = useRouter();
 
@@ -64,5 +64,3 @@ const CreateWorkspaceModal = () => {
         </Dialog>
     )
 }
-
-export default CreateWorkspaceModal
