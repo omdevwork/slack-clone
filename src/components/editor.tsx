@@ -11,6 +11,7 @@ import { Hint } from "./hint";
 import { Button } from "./ui/button";
 
 import "quill/dist/quill.snow.css";
+import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
     image: File | null;
@@ -65,10 +66,10 @@ const Editor = ({
             theme: "snow",
             placeholder: placeholderRef.current,
             modules: {
-                toolbar:[
+                toolbar: [
                     ["bold", "italic", "strike"],
                     ["link"],
-                    [{list: "ordered"}, {list: "bullet"}],
+                    [{ list: "ordered" }, { list: "bullet" }],
                 ],
                 keyboard: {
                     bindings: {
@@ -124,9 +125,15 @@ const Editor = ({
         setIsToolbarVisible((current) => !current);
         const toolbarElement = containerRef.current?.querySelector(".ql-toolbar");
 
-        if(toolbarElement){
+        if (toolbarElement) {
             toolbarElement.classList.toggle("hidden");
         }
+    }
+
+    const onEmojiSelect = (emoji: any) => {
+        const quill = quillRef.current;
+
+        quill?.insertText(quill.getSelection()?.index || 0, emoji.native);
     }
 
     const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
@@ -146,16 +153,15 @@ const Editor = ({
                             <PiTextAa className="size-4" />
                         </Button>
                     </Hint>
-                    <Hint label="Emoji">
+                    <EmojiPopover onEmojiSelect={onEmojiSelect}>
                         <Button
                             disabled={disabled}
                             size="iconSm"
                             variant="ghost"
-                            onClick={() => { }}
                         >
                             <Smile className="size-4" />
                         </Button>
-                    </Hint>
+                    </EmojiPopover>
                     {
                         variant === "create" && (
                             <Hint label="Image">
@@ -211,11 +217,18 @@ const Editor = ({
                     }
                 </div>
             </div>
-            <div className="p-2 text-[10px] text-muted-foreground flex justify-end">
-                <p>
-                    <strong>Shift + Return</strong> to add new line
-                </p>
-            </div>
+            {
+                variant === "create" && (
+                    <div className={cn(
+                        "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
+                        !isEmpty && "opacity-100"
+                    )}>
+                        <p>
+                            <strong>Shift + Return</strong> to add new line
+                        </p>
+                    </div>
+                )
+            }
         </div>
     )
 }
