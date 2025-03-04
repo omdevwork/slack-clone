@@ -22,7 +22,7 @@ type EditorValue = {
 interface EditorProps {
     onSubmit: ({ image, body }: EditorValue) => void;
     onCancel?: () => void;
-    placeholder: string;
+    placeholder?: string;
     defaultValue?: Delta | Op[];
     disabled?: boolean;
     innerRef?: MutableRefObject<Quill | null>;
