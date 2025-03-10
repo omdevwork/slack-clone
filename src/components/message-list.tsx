@@ -3,7 +3,7 @@ import { Loader } from "lucide-react";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 
 import { useCurrentMember } from "@/features/members/api/use-current-member";
-import { GetMessagesReturnType } from "@/features/messages/api/use-get-message";
+import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 
 import { useWorkSpaceId } from "@/hooks/use-workspace-id";
 

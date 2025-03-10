@@ -8,6 +8,7 @@ import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction"
 
 import { cn } from "@/lib/utils";
 import { useConfirm } from "@/hooks/use-confirm";
+import { usePanel } from "@/hooks/use-panel";
 
 import { Hint } from "./hint";
 import { Toolbar } from "./toolbar";
@@ -69,6 +70,8 @@ export const Message = ({
     threadTimestamp,
 }: MessageProps) => {
 
+    const { parentMessageId, onOpenMessage, onClose } = usePanel();
+
     const [ConfirmDialog, confirm] = useConfirm("Delete message", "Are you sure you want to delete this message? This cannot be undone.");
 
     const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
@@ -92,7 +95,9 @@ export const Message = ({
             onSuccess: () => {
                 toast.success("Message deleted");
 
-                // TODO: close thread if opened
+                if (parentMessageId === id) {
+                    onClose();
+                }
             },
             onError: (error) => {
                 toast.error("Failed to delete message");
@@ -153,7 +158,7 @@ export const Message = ({
                             isAuthor={isAuthor}
                             isPending={isPending}
                             handleEdit={() => setEditingId(id)}
-                            handleThread={() => { }}
+                            handleThread={() => onOpenMessage(id)}
                             handleDelete={handleRemove}
                             handleReaction={handleReaction}
                             hideThreadButton={hideThreadButton}
@@ -220,7 +225,7 @@ export const Message = ({
                         isAuthor={isAuthor}
                         isPending={isPending}
                         handleEdit={() => setEditingId(id)}
-                        handleThread={() => { }}
+                        handleThread={() => onOpenMessage(id)}
                         handleDelete={handleRemove}
                         handleReaction={handleReaction}
                         hideThreadButton={hideThreadButton}
