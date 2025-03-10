@@ -199,7 +199,7 @@ export const get = query({
                             },
                             [] as (Doc<"reactions"> & { count: number; memberIds: Id<"members">[] })[]
                         );
-                        const reactionWithoutMemberIdProperty = dedupedReactions.map(({ memberIds, ...rest }) => rest);
+                        const reactionWithoutMemberIdProperty = dedupedReactions.map(({ memberId, ...rest }) => rest);
                         return {
                             ...message,
                             image,
